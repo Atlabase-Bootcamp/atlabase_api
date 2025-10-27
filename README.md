@@ -52,7 +52,7 @@ Sigue estos pasos para levantar el servidor de desarrollo en tu máquina local.
 ### 2. Clonar el Repositorio
 
 ```bash
-git clone [https://github.com/GerardoVollmer/atlabase_api.git](https://github.com/GerardoVollmer/atlabase_api.git)
+git clone https://github.com/GerardoVollmer/atlabase_api.git
 cd atlabase_api
 ```
 ### 3. Instalar Dependencias
@@ -65,7 +65,7 @@ Crea un archivo .env en la raíz del proyecto. Puedes copiar el .env.example (si
 
 #### Configuración de la Base de Datos (ajusta con tu usuario y contraseña de Postgres)
 ```bash
-DATABASE_URL="postgresql://postgres:gariglios33@localhost:5432/atlabase_db"
+DATABASE_URL="postgresql://user:password@localhost:5432/name_db"
 ```
 
 #### Configuración del Servidor
