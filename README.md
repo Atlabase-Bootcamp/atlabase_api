@@ -1,7 +1,7 @@
 # Atlabase API 🚀
 
 <p align="center">
-  <img src="http://googleusercontent.com/image_generation_content/0](https://drive.google.com/file/d/15cqX2WdWyogXKz-snOtGTxPb39jObZQm/view?usp=sharing" alt="Logo de Atlabase" width="400">
+  <img src="./assets/cover.png" alt="Logo de Atlabase" width="1200">
 </p>
 
 Este es el repositorio del backend para **Atlabase**, un SaaS (Software as a Service) de tipo Micro-CRM diseñado para simplificar la vida de los freelancers. Provee una API RESTful para gestionar clientes, proyectos y tareas de forma centralizada.
