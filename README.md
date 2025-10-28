@@ -61,7 +61,7 @@ cd atlabase_api
 npm install
 ```
 ### 4. Configurar Variables de Entorno
-Crea un archivo .env en la raíz del proyecto. Puedes copiar el .env.example (si existe) o usar esta plantilla:
+Crea un archivo .env en la raíz del proyecto:
 
 #### Configuración de la Base de Datos (ajusta con tu usuario y contraseña de Postgres)
 ```bash
