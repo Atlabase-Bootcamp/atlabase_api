@@ -2,7 +2,7 @@ import type { Request, Response, NextFunction } from "express";
 import { ApiError } from "@@/utils/api.error.js";
 import z, { ZodError } from "zod";
 
-export function errorHanlder(
+export function errorHandler(
   error: any,
   req: Request,
   res: Response,

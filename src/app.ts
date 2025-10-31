@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import admin_router from "@@/api/admin/admin.routes.js";
-import { errorHanlder } from "@@/api/middlewares/error.hanlder.js";
+import { errorHandler } from "@/src/api/middlewares/error.handler.js";
 
 const app = express();
 const base_route = "/api/v1";
@@ -17,6 +17,6 @@ app.get("/", (req, res) => {
 
 app.use(base_route, admin_router);
 
-app.use(errorHanlder);
+app.use(errorHandler);
 
 export default app;

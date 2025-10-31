@@ -9,12 +9,11 @@ app.listen(PORT, () => {
   try {
     prisma.$connect();
     console.log("Conexión a la Base de Datos Establecida!");
-
     console.log(
       `🚀 Servidor de Atlabase corriendo en http://localhost:${PORT}`
     );
   } catch (error) {
-    console.log("Error al contectar con la BD");
+    console.log("Error al contectar con la BD", error);
   } finally {
     prisma.$disconnect();
   }
