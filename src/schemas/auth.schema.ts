@@ -1,16 +1,16 @@
-import { Schema } from 'validate';
+import z from 'zod';
 
 // Exporta registerSchema (valida email, password (min 8), username, first_name, last_name)
-export const registerSchema = new Schema({
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true, minLength: 8 },
-    username: { type: String, required: true, unique: true },
-    first_name: { type: String, required: true },
-    last_name: { type: String, required: true },
+export const registerSchema = z.object({
+    email: z.email(),
+    password: z.string().min(8),
+    username: z.string(),
+    first_name: z.string(),
+    last_name: z.string()
 });
 
 // Exporta loginSchema (valida email, password).
-export const loginSchema = new Schema({
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true, minLength: 8 },
+export const loginSchema = z.object({
+    email: z.email(),
+    password: z.string().min(8)
 });
