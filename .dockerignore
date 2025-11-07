@@ -1,0 +1,16 @@
+# Ignorar las dependencias locales, se instalaran DENTRO del contenedor
+node_modules
+
+# Ignorar el código compilado
+dist
+
+# Ignorar archivos de Git y Docker
+.git
+.gitignore
+.github/
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Ignorar variables de entorno (se pasaran de otra forma)
+.env
