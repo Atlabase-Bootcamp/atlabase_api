@@ -18,3 +18,13 @@ export async function findUserByEmail(email: string): Promise<User | null> {
 
   return user;
 }
+
+export async function findUserByUsername(
+  username: string
+): Promise<User | null> {
+  const user = await prisma.user.findUnique({
+    where: { username: username },
+  });
+
+  return user;
+}
