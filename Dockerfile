@@ -10,6 +10,15 @@ WORKDIR /app
 # Copiamos el package.json y package-lock.json para instalar las dependencias
 COPY package*.json ./
 
+# Se copia la carpeta prisma y la config antes de instalar.
+# Así el script 'postinstall' encontrará el schema y funcionará
+COPY prisma ./prisma/
+COPY prisma.config.ts ./
+
+# Pasamos la variable de entorno DATABASE_URL como argumento de construcción
+ARG DATABASE_URL
+ENV DATABASE_URL=${DATABASE_URL}
+
 # ---- 4. Instalación de dependencias ----
 # Instalamos las dependencias del proyecto
 RUN npm install
@@ -18,9 +27,6 @@ RUN npm install
 # Copiamos todo el código fuente al contenedor
 COPY . .
 
-# Pasamos la variable de entorno DATABASE_URL como argumento de construcción
-ARG DATABASE_URL
-ENV DATABASE_URL=${DATABASE_URL}
 
 ## ---- 6. Generación de Prisma Client ----
 # Generamos el cliente de Prisma
