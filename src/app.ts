@@ -10,8 +10,9 @@ const base_route = "/api/v1";
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
+app.use("/api/auth"); // Ruta para autenticacion, app es para usarla en server.ts
 
-app.get("/", (req, res) => {
+app.get(base_route, (req, res) => {
   res.send("¡API de Atlabase funcionando!");
 });
 
