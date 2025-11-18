@@ -17,7 +17,7 @@ export const registerHandler = async (req: Request, res: Response, next: NextFun
 export const loginHandler = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = await authService.loginUser(req.body);
-    return success(res, token);
+    return success(res, token, httpStatus.OK);
   } catch (error) {
     next(error);
   }
