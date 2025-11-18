@@ -15,10 +15,10 @@ Este es el repositorio del backend para **Atlabase**, un SaaS (Software as a Ser
 ## ✨ Características Principales
 
 * **Autenticación Segura:** Registro e inicio de sesión usando JWT (Tokens) y hashing de contraseñas con `bcrypt`.
-* **Gestión de Datos:** Funcionalidad CRUD completa para Clientes, Proyectos y Tareas.
-* **Seguridad de Datos:** Los datos de cada freelancer están aislados y protegidos (un usuario solo puede ver sus propios datos).
+* **Arquitectura Modular:** Estructura basada en *features* para facilitar la escalabilidad.
+* **Base de Datos NoSQL:** Uso de MongoDB Atlas para un esquema flexible y escalable.
+* **Entorno Dockerizado:** Configuración lista para usar con Docker Compose, garantizando consistencia entre desarrolladores.
 * **Validación Robusta:** Validación de esquemas en todas las rutas de la API usando `Zod`.
-* **Manejo de Errores Centralizado:** Un `errorHandler` personalizado que envía respuestas de error limpias y consistentes.
 
 ---
 
@@ -26,76 +26,62 @@ Este es el repositorio del backend para **Atlabase**, un SaaS (Software as a Ser
 
 | Área | Tecnología | Propósito |
 | :--- | :--- | :--- |
-| **Runtime** | [Node.js](https://nodejs.org/en) | Entorno de ejecución de JavaScript |
+| **Runtime** | [Node.js](https://nodejs.org/en) | Entorno de ejecución (v24 LTS) |
 | **Framework** | [Express](https://expressjs.com/) | Framework para el servidor y API REST |
 | **Lenguaje** | [TypeScript](https://www.typescriptlang.org/) | Superset de JavaScript con tipos |
-| **Base de Datos** | [PostgreSQL](https://www.postgresql.org/) | Base de datos relacional |
-| **ORM** | [Prisma](https://www.prisma.io/) | ORM de nueva generación para Node.js y TS |
-| **Autenticación**| [JWT](https://jwt.io/) / [Bcrypt](https://www.npmjs.com/package/bcrypt) | Tokens de sesión y hashing de contraseñas |
-| **Validación** | [Zod](https://zod.dev/) | Validación de esquemas |
-| **Dev Server** | [tsx](https://www.npmjs.com/package/tsx) | Ejecutor de TypeScript rápido |
-| **Logging** | [Morgan](https://www.npmjs.com/package/morgan) | Logger de peticiones HTTP para desarrollo |
-| **Variables** | [dotenv](https://www.npmjs.com/package/dotenv) | Carga de variables de entorno |
+| **Base de Datos** | [MongoDB Atlas](https://www.mongodb.com/atlas) | Base de datos NoSQL en la nube |
+| **ORM** | [Prisma](https://www.prisma.io/) | ORM para interactuar con MongoDB |
+| **Infraestructura** | [Docker](https://www.docker.com/) | Contenerización del entorno de desarrollo |
+| **Autenticación**| [JWT](https://jwt.io/) / [Bcrypt](https://www.npmjs.com/package/bcrypt) | Tokens de sesión y hashing |
+| **Validación** | [Zod](https://zod.dev/) | Validación de datos de entrada |
 
 ---
 
-## 🚀 Cómo Empezar
+## 🚀 Cómo Empezar (Entorno Docker)
 
-Sigue estos pasos para levantar el servidor de desarrollo en tu máquina local.
+Este proyecto está configurado para correr 100% dentro de Docker. No necesitas instalar Node.js ni MongoDB en tu máquina local.
 
 ### 1. Prerrequisitos
 
-* [Node.js](https://nodejs.org/en) (v20+ recomendado)
-* [npm](https://www.npmjs.com/)
-* Una instancia de [PostgreSQL](https://www.postgresql.org/download/) corriendo localmente.
+* [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Instalado y corriendo).
+* [Git](https://git-scm.com/).
+* (Opcional) [MongoDB Compass](https://www.mongodb.com/products/tools/compass) para visualizar la base de datos.
 
 ### 2. Clonar el Repositorio
 
 ```bash
-git clone https://github.com/GerardoVollmer/atlabase_api.git
+git clone [https://github.com/GerardoVollmer/atlabase_api.git](https://github.com/GerardoVollmer/atlabase_api.git)
 cd atlabase_api
 ```
-### 3. Instalar Dependencias
+
+### 3. Configurar Variables de Entorno
+Crea un archivo .env en la raíz del proyecto copiando el siguiente ejemplo. Nota: Necesitarás la cadena de conexión de MongoDB Atlas proporcionada por el líder del proyecto.
 
 ```bash
-npm install
-```
-### 4. Configurar Variables de Entorno
-Crea un archivo .env en la raíz del proyecto:
+# Conexión a MongoDB Atlas
+DATABASE_URL="mongodb+srv://<usuario>:<password>@<cluster>.mongodb.net/atlabase_db?retryWrites=true&w=majority"
 
-#### Configuración de la Base de Datos (ajusta con tu usuario y contraseña de Postgres)
-```bash
-DATABASE_URL="postgresql://user:password@localhost:5432/name_db"
-```
-
-#### Configuración del Servidor
-```bash
+# Configuración del Servidor
 NODE_ENV=development
 PORT=3001
-```
 
-#### Secreto para JSON Web Tokens (JWT) - ¡Cámbialo por una frase larga y secreta!
-```bash
+# Secreto para JWT
 JWT_SECRET="TU_FRASE_SECRETA_SUPER_LARGA_AQUI"
 ```
-
-### 5. Sincronizar la Base de Datos
-Este comando leerá tu schema.prisma, creará la base de datos atlabase_db (si no existe) y generará las tablas.
+### 4. Iniciar el Proyecto
+Ejecuta el siguiente comando para construir la imagen y levantar el contenedor:
 
 ```bash
-npm run prisma:migrate
+docker compose up --build
 ```
+- La API estará disponible en: http://localhost:3001/api/v1
 
-#### Después de migrar, genera el cliente de Prisma:
+- El servidor se reiniciará automáticamente al detectar cambios en el código (Hot Reload).
 
-```bash
-npm run prisma:generate
-```
-
-### 6. Iniciar el Servidor de Desarrollo
+Para detener el servidor:
 
 ```bash
-npm run dev
+docker compose down
 ```
 
 ¡Listo! La API estará corriendo en http://localhost:3001. El servidor se reiniciará automáticamente cada vez que hagas un cambio en el código fuente.
@@ -109,33 +95,64 @@ Estos son los scripts principales definidos en el package.json:
 | **npm run dev**	| Inicia el servidor en modo desarrollo con tsx watch.
 | **npm run build**	| Compila el código TypeScript a JavaScript en la carpeta /dist.
 | **npm run start**	| Ejecuta el código JavaScript compilado (para producción).
-| **npm run prisma:migrate** | Ejecuta las migraciones de la base de datos.
 | **npm run prisma:generate**	| Genera el cliente de Prisma basado en el schema.prisma.
 
 ---
 
 ## 🏗️ Arquitectura del Proyecto
 
+Seguimos una Arquitectura Monolítica Modular. El código se organiza por "Features" (Dominios) en lugar de capas técnicas genéricas.
+
 ```bash
 src/
-├── api/
-│   ├── auth/
-│   ├── users/
-│   ├── customers/
-│   ├── projects/
-│   ├── tasks/
-│   ├── admin/
-│   └── middlewares/  (Compartidos)
-├── config/
-├── schemas/
-├── types/
-├── utils/
-├── app.ts            (Config. de Express)
-└── server.ts         (Punto de entrada)
+├── api/                  # Lógica de Negocio
+│   ├── auth/             # Feature: Autenticación
+│   │   ├── auth.controller.ts
+│   │   ├── auth.routes.ts
+│   │   └── auth.service.ts
+│   ├── users/            # Feature: Usuarios
+│   │   └── users.repository.ts
+│   ├── customers/        # Feature: Clientes (Próximamente)
+│   └── middlewares/      # Middlewares compartidos (Auth, ErrorHandler)
+├── config/               # Configuración (DB, Envs)
+├── schemas/              # Esquemas de validación Zod (auth.schema.ts)
+├── utils/                # Helpers (JWT, Hashing, ApiError)
+├── app.ts                # Configuración de Express
+└── server.ts             # Punto de entrada
 ```
 
 ## 📚 Endpoints del API
-(Próximamente...)
+### 1. Autenticación
+- #### Registro
+```bash
+POST /api/v1/auth/register
+```
+_Descripción: Registra un nuevo usuario en la plataforma._
+
+**Body:**
+```bash
+{
+  "email": "usuario@ejemplo.com",
+  "password": "passwordSegura123",
+  "username": "usuario1",
+  "first_name": "Juan",
+  "last_name": "Perez"
+}
+```
+- #### Inicio de sesión
+
+```bash
+POST /api/v1/auth/login
+```
+_Descripción: Inicia sesión y devuelve un token de acceso._
+
+**Body:**
+```bash
+{
+  "email": "usuario@ejemplo.com",
+  "password": "passwordSegura123"
+}
+```
 
 La documentación de los endpoints se añadirá a medida que se construyan. Para probar la API, recomendamos usar Postman o Insomnia.
 
