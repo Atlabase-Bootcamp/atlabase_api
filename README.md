@@ -50,7 +50,7 @@ Este proyecto está configurado para correr 100% dentro de Docker. No necesitas 
 ### 2. Clonar el Repositorio
 
 ```bash
-git clone [https://github.com/GerardoVollmer/atlabase_api.git](https://github.com/GerardoVollmer/atlabase_api.git)
+git clone https://github.com/Atlabase-Bootcamp/atlabase_api.git
 cd atlabase_api
 ```
 
