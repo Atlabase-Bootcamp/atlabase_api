@@ -13,7 +13,7 @@ import type { Prisma, User } from "@prisma/client";
 import { signJwt } from "@/src/utils/jwt.js";
 
 export async function registerUser(
-  data: RegisterInput
+  data: RegisterInput["body"]
 ): Promise<Omit<User, "password_hash">> {
   const existingEmail = await findUserByEmail(data.email);
   if (existingEmail) {
@@ -39,15 +39,16 @@ export async function registerUser(
   return userWithOutPassword;
 }
 
-export async function loginUser(data: LoginInput): Promise<string> {
+export async function loginUser(data: LoginInput["body"]): Promise<string> {
   const user = await findUserByEmail(data.email);
 
   if (!user || !(await validatePassword(data.password, user.password_hash))) {
-    throw new ApiError("Usuario no encontrado", httpStatus.UNAUTHORIZED);
+    throw new ApiError("Credenciales Inválidas", httpStatus.UNAUTHORIZED);
   }
 
   const payload = {
     user_id: user.id,
+    is_admin: user.is_admin,
   };
 
   const token = signJwt(payload, "7d");
