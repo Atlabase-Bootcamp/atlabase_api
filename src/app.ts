@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import admin_router from "@@/api/admin/admin.routes.js";
+import auth_router from "@@/api/auth/auth.routes.js";
 import { errorHandler } from "@/src/api/middlewares/error.handler.js";
 
 const app = express();
@@ -15,7 +15,7 @@ app.get(base_route, (req, res) => {
   res.send("¡API de Atlabase funcionando!");
 });
 
-app.use(base_route, admin_router);
+app.use(base_route, auth_router);
 
 app.use(errorHandler);
 
