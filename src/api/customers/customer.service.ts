@@ -4,7 +4,7 @@ export const createCustomer = (data: any) => {
     return repository.create(data);
 };
 
-export const getCUstomers = () => {
+export const getCustomers = () => {
     return repository.findAll();
 };
 
