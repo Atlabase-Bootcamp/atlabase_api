@@ -27,7 +27,7 @@ export async function registerUser(
 
   const hashedPassword = await hashPassword(data.password);
 
-  const dataForPrisma: Prisma.UserCreateInput = {
+  const dataForPrisma: Prisma.UserCreateInput = { ////
     username: data.username,
     email: data.email,
     first_name: data.first_name,

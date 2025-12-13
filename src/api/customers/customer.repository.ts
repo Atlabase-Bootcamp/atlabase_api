@@ -1,17 +1,15 @@
-import { PrismaClient } from "@prisma/client/extension";
-
-const prisma = new PrismaClient();
+import prisma from "@/src/config/db.js";
 
 export const create = async (data: any) => {
     return prisma.customer.create({data});
 };
 
-export const findAll = async () => {
-    return prisma.customer.findMany();
+export const findAll = async (userId: string) => {
+    return prisma.customer.findMany({where: { user_id: userId }}); // aplicar el where de userId en el servicio
 };
 
 export const findById = async (id: string) => {
-    return prisma.customer.delete.findUnique({ where: { id } });
+    return prisma.customer.findUnique({ where: { id } });
 };
 
 export const update = async (id: string, data: any) => {
