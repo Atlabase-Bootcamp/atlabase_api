@@ -1,21 +1,33 @@
 import prisma from "@/src/config/db.js";
+import type { Prisma } from "@prisma/client";
 
-export const create = async (data: any) => {
-    return prisma.customer.create({data});
-};
+class CustomerRepository {
+  create = async (data: Prisma.CustomerCreateInput) => {
+    return prisma.customer.create({ data });
+  };
 
-export const findAll = async (userId: string) => {
-    return prisma.customer.findMany({where: { user_id: userId }}); // aplicar el where de userId en el servicio
-};
+  findAll = async (userId: string) => {
+    return prisma.customer.findMany({
+      where: { user_id: userId },
+      orderBy: { created_at: "desc" },
+    });
+  };
 
-export const findById = async (id: string) => {
-    return prisma.customer.findUnique({ where: { id } });
-};
+  findById = async (id: string, userId: string) => {
+    return prisma.customer.findUnique({ where: { id, user_id: userId } });
+  };
 
-export const update = async (id: string, data: any) => {
-    return prisma.customer.update({ where: { id }, data });
-};
+  update = async (
+    id: string,
+    userId: string,
+    data: Prisma.CustomerUpdateInput
+  ) => {
+    return prisma.customer.update({ where: { id, user_id: userId }, data });
+  };
 
-export const remove = async (id: string) => {
-    return prisma.customer.delete({ where: { id } });
-};
+  remove = async (id: string, userId: string) => {
+    return prisma.customer.delete({ where: { id, user_id: userId } });
+  };
+}
+
+export const customerRepository = new CustomerRepository();
