@@ -1,15 +1,37 @@
 import { Router } from "express";
 import { authenticate } from "../middlewares/authenticate.js";
 import { validate } from "../middlewares/validate.request.js";
-import { createCustomerSchema, idSchema, updateCustomerSchema } from "@/src/schemas/customer.schema.js";
-import * as controller from './customer.controller.js'
+import {
+  createCustomerSchema,
+  updateCustomerSchema,
+} from "@/src/schemas/customer.schema.js";
+import { customerController } from "./customer.controller.js";
+import type { IdParam } from "@/src/schemas/common.schema.js";
 
 const customer_router = Router();
 
-customer_router.post('/customers/', authenticate, validate(createCustomerSchema), controller.createCustomer); //POST/Customer
-customer_router.get('/customers/', authenticate, controller.getCustomers); //GET/CUSTOMERS
-customer_router.get('/customers/:id', authenticate, validate(idSchema), controller.getCustomerById); //GET/CUSTOMERS/:id
-customer_router.put('/customers/:id', authenticate, validate(updateCustomerSchema), controller.updateCustomer); //PUT/CUSTOMERS/:id
-customer_router.delete('/customers/:id', authenticate, validate(idSchema), controller.deleteCustomer); //DELETE/CUSTOMERS/:id
+customer_router.get("/customers/", authenticate, (req, res, next) =>
+  customerController.getCustomers(req, res, next)
+);
+customer_router.get<IdParam>("/customers/:id", authenticate, (req, res, next) =>
+  customerController.getCustomerById(req, res, next)
+);
+customer_router.post(
+  "/customers/",
+  authenticate,
+  validate(createCustomerSchema),
+  (req, res, next) => customerController.createCustomer(req, res, next)
+);
+customer_router.put<IdParam>(
+  "/customers/:id",
+  authenticate,
+  validate(updateCustomerSchema),
+  (req, res, next) => customerController.updateCustomer(req, res, next)
+);
+customer_router.delete<IdParam>(
+  "/customers/:id",
+  authenticate,
+  (req, res, next) => customerController.deleteCustomer(req, res, next)
+);
 
 export default customer_router;

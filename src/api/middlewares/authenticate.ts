@@ -6,7 +6,7 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
   try {
     const authHeader = req.headers.authorization;
 
-    if (!authHeader || !authHeader.startsWith("Berear ")) {
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       throw new ApiError(
         "Acceso no autorizado. Se requiere token",
         httpStatus.UNAUTHORIZED
@@ -24,10 +24,10 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
     if (
       typeof payload === "object" &&
       payload !== null &&
-      "id" in payload &&
-      typeof payload.id === "string"
+      "user_id" in payload &&
+      typeof payload.user_id === "string"
     ) {
-      req.user = { id: payload.id };
+      req.user = { id: payload.user_id as string };
       next();
     } else {
       throw new ApiError(

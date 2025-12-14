@@ -13,7 +13,7 @@ import type { Prisma, User } from "@prisma/client";
 import { signJwt } from "@/src/utils/jwt.js";
 
 export async function registerUser(
-  data: RegisterInput["body"]
+  data: RegisterInput
 ): Promise<Omit<User, "password_hash">> {
   const existingEmail = await findUserByEmail(data.email);
   if (existingEmail) {
@@ -27,7 +27,8 @@ export async function registerUser(
 
   const hashedPassword = await hashPassword(data.password);
 
-  const dataForPrisma: Prisma.UserCreateInput = { ////
+  const dataForPrisma: Prisma.UserCreateInput = {
+    ////
     username: data.username,
     email: data.email,
     first_name: data.first_name,
@@ -39,7 +40,7 @@ export async function registerUser(
   return userWithOutPassword;
 }
 
-export async function loginUser(data: LoginInput["body"]): Promise<string> {
+export async function loginUser(data: LoginInput): Promise<string> {
   const user = await findUserByEmail(data.email);
 
   if (!user || !(await validatePassword(data.password, user.password_hash))) {

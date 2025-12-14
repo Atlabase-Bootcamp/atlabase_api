@@ -1,9 +1,10 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import auth_router from "@@/api/auth/auth.routes.js";
 import { errorHandler } from "@/src/api/middlewares/error.handler.js";
+import auth_router from "@@/api/auth/auth.routes.js";
 import customer_router from "./api/customers/customer.routes.js";
+import project_router from "./api/projects/project.routes.js";
 
 const app = express();
 const base_route = "/api/v1";
@@ -18,6 +19,7 @@ app.get(base_route, (req, res) => {
 
 app.use(base_route, auth_router);
 app.use(base_route, customer_router);
+app.use(base_route, project_router);
 
 app.use(errorHandler);
 

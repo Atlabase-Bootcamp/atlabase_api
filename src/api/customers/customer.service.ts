@@ -1,64 +1,58 @@
-import type { customerInput, updateCustomerInput } from '@/src/schemas/customer.schema.js';
-import * as repository from './customer.repository.js';
-import type { Prisma } from '@prisma/client';
-import { ApiError, httpStatus } from '@/src/utils/api.error.js';
+import type {
+  CreateCustomerInput,
+  UpdateCustomerInput,
+} from "@/src/schemas/customer.schema.js";
+import type { Prisma } from "@prisma/client";
+import { ApiError, httpStatus } from "@/src/utils/api.error.js";
+import { customerRepository } from "./customer.repository.js";
 
-export const createCustomer = (user_id: string, data: customerInput["body"]) => {
+class CustomerService {
+  private repoCustomer = customerRepository;
+  createCustomer = (userId: string, data: CreateCustomerInput) => {
     const prismaData: Prisma.CustomerCreateInput = {
-        name: data.name,
-        email: data.email,
-        phone_number: data.phone_number,
-        notes: data.notes,
-        user: { connect: { id: user_id } },
- };
-    return repository.create(prismaData);
-};
+      name: data.name,
+      email: data.email,
+      phone_number: data.phone_number,
+      notes: data.notes,
+      user: { connect: { id: userId } },
+    };
+    return this.repoCustomer.create(prismaData);
+  };
 
-export const getCustomers = (user_id: string) => {
-    return repository.findAll(user_id);
-};
+  getCustomers = (userId: string) => {
+    return this.repoCustomer.findAll(userId);
+  };
 
-export const getCustomerById = async (user_id: string, customer_id: string) => {
-    const customer = await repository.findById(customer_id);
+  getCustomerById = async (customerId: string, userId: string) => {
+    const customer = await this.repoCustomer.findById(customerId, userId);
     if (!customer) {
-        throw new ApiError('Cliente no encontrado', httpStatus.NOT_FOUND);
-    }
-
-    if (customer.user_id !== user_id) {
-        throw new ApiError('Acceso denegado', httpStatus.FORBIDDEN);
+      throw new ApiError("Cliente no encontrado", httpStatus.NOT_FOUND);
     }
     return customer;
-};
+  };
 
-export const updateCustomer = async (user_id: string, customer_id: string, data: updateCustomerInput["body"]) => {
-  
-  const customer = await repository.findById(customer_id);
-  if (!customer) {
-    throw new ApiError('Customer no encontrado', httpStatus.NOT_FOUND);
-  }
-  if (customer.user_id !== user_id) {
-    throw new ApiError('Acceso denegado', httpStatus.FORBIDDEN);
-  }
+  updateCustomer = async (
+    customerId: string,
+    userId: string,
+    data: UpdateCustomerInput
+  ) => {
+    await this.getCustomerById(customerId, userId);
+
     const filteredData = Object.fromEntries(
       Object.entries(data).filter(([_, value]) => value !== undefined)
     );
     const updateCustomer: Prisma.CustomerUpdateInput = {
-      ...filteredData
-        };
+      ...filteredData,
+    };
 
-     return repository.update(customer_id, updateCustomer);
-};
+    return this.repoCustomer.update(customerId, userId, updateCustomer);
+  };
 
-export const deleteCustomer = async (userId: string, customerId: string) => {
-  const customer = await repository.findById(customerId);
+  deleteCustomer = async (customerId: string, userId: string) => {
+    await this.getCustomerById(customerId, userId);
 
-  if (!customer) {
-    throw new ApiError('Customer no encontrado', httpStatus.NOT_FOUND);
-  }
+    return this.repoCustomer.remove(customerId, userId);
+  };
+}
 
-  if (customer.user_id !== userId) {
-    throw new ApiError('Acceso denegado', httpStatus.FORBIDDEN);
-  }
-
-  return repository.remove(customerId);
-};
+export const customerService = new CustomerService();

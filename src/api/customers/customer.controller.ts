@@ -1,58 +1,93 @@
-import * as service from './customer.service.js';
-import type { Request, Response, NextFunction } from 'express';
-import { success } from '@/src/utils/response.helper.js';
+import type { Request, Response, NextFunction } from "express";
+import { success } from "@/src/utils/response.helper.js";
+import { customerService } from "./customer.service.js";
+import type {
+  CreateCustomerInput,
+  UpdateCustomerInput,
+} from "@/src/schemas/customer.schema.js";
+import { httpStatus } from "@/src/utils/api.error.js";
+import type { IdParam } from "@/src/schemas/common.schema.js";
 
-export const createCustomer = async (req: Request, res: Response, next: NextFunction) => {
-  try {  
-    const {user_id} = req.cookies;
-    const customer = await service.createCustomer(user_id, req.body);
-    return success(res, customer, 201);
-} catch (error) {
-    next(error);
+class CustomerController {
+  private serviceCustomer = customerService;
+
+  createCustomer = async (
+    req: Request<{}, {}, CreateCustomerInput>,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const userId = req.user!.id;
+      const customer = await this.serviceCustomer.createCustomer(
+        userId,
+        req.body
+      );
+      return success(res, customer, httpStatus.CREATED);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  getCustomers = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userId = req.user!.id;
+      const customers = await this.serviceCustomer.getCustomers(userId);
+      success(res, customers);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  getCustomerById = async (
+    req: Request<IdParam>,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const userId = req.user!.id;
+      const { id } = req.params;
+      const customer = await this.serviceCustomer.getCustomerById(id, userId);
+      return success(res, customer);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  updateCustomer = async (
+    req: Request<IdParam, {}, UpdateCustomerInput>,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const userId = req.user!.id;
+      const { id } = req.params;
+
+      const updated = await this.serviceCustomer.updateCustomer(
+        id,
+        userId,
+        req.body
+      );
+      return success(res, updated);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  deleteCustomer = async (
+    req: Request<IdParam>,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const userId = req.user!.id;
+      const { id } = req.params;
+
+      await this.serviceCustomer.deleteCustomer(id, userId);
+      return success(res, null, httpStatus.NO_CONTENT);
+    } catch (error) {
+      next(error);
+    }
+  };
 }
-};
 
-export const getCustomers = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const {user_id} = req.cookies;
-    const customers = await service.getCustomers(user_id);
-    return res.status(200).json(customers);
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const getCustomerById = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-  const {user_id} = req.cookies;
-  const id = req.params?.id as string;
-  const customer = await service.getCustomerById(user_id, id);
-    return success(res, customer, 200);
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const updateCustomer = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const {user_id} = req.cookies;
-    const id = req.params?.id as string;
-
-    const updated = await service.updateCustomer(user_id, id, req.body);
-    return success(res, updated, 200);
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const deleteCustomer = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const {user_id} = req.cookies;
-    const id = req.params?.id as string;
-
-    await service.deleteCustomer(user_id, id);
-    return success(res, null, 204);
-  } catch (error) {
-    next(error);
-  }
-};
+export const customerController = new CustomerController();
