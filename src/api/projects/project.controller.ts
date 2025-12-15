@@ -98,7 +98,7 @@ class ProjectController {
       const { id, taskId } = req.params;
       const userId = req.user!.id;
 
-      const updatedTask = this.projectService.updateTask(
+      const updatedTask = await this.projectService.updateTask(
         id,
         userId,
         taskId,
