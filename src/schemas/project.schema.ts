@@ -1,4 +1,3 @@
-import { title } from "process";
 import z from "zod";
 
 const ProjectStatusEnum = z.enum([
@@ -32,7 +31,7 @@ export const updateProjectSchema = z.object({
   params: z.object({
     id: z.string().regex(/^[0-9a-fA-F]{24}$/, "ID de proyecto inválido"),
   }),
-  body: createProjectSchema.shape.body.omit({ customerId: true }).optional(),
+  body: createProjectSchema.shape.body.omit({ customerId: true }).partial(),
 });
 
 export const createTaskSchema = z.object({

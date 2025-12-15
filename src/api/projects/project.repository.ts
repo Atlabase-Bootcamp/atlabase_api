@@ -6,13 +6,13 @@ import type {
 } from "@/src/schemas/project.schema.js";
 
 class ProjectRepository {
-  findAllByUserId = async (userId: string) => {
+  async findAllByUserId(userId: string) {
     return prisma.project.findMany({
       where: { user_id: userId },
       include: { customer: true },
       orderBy: { created_at: "desc" },
     });
-  };
+  }
 
   async findById(projectId: string, userId: string) {
     return prisma.project.findUnique({
@@ -21,9 +21,9 @@ class ProjectRepository {
     });
   }
 
-  create = async (data: Prisma.ProjectCreateInput) => {
+  async create(data: Prisma.ProjectCreateInput) {
     return prisma.project.create({ data });
-  };
+  }
 
   async update(
     projectId: string,
