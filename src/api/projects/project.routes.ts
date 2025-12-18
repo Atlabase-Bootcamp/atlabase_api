@@ -57,7 +57,6 @@ project_router.put<UpdateTaskParams>(
 project_router.delete<UpdateTaskParams>(
   "/projects/:id/tasks/:taskId",
   authenticate,
-  validate(updateTaskSchema),
   (req, res, next) => projectController.deleteTask(req, res, next)
 );
 
