@@ -6,11 +6,13 @@ export const createCustomerSchema = z.object({
     name: z.string().min(1, "El nombre es obligatorio"),
     email: z
       .email("El email no es válido")
+      .or(z.literal(""))
       .optional()
       .transform((val) => val ?? null),
     phone_number: z
       .string()
       .min(10, "El teléfono debe tener al menos 10 dígitos")
+      .or(z.literal(""))
       .optional()
       .transform((val) => val ?? null),
     notes: z

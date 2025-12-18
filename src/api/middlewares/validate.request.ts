@@ -6,7 +6,7 @@ export const validate =
     try {
       const parsed = schema.parse({
         body: req.body,
-        query: req.body,
+        query: req.query,
         params: req.params,
       });
 
