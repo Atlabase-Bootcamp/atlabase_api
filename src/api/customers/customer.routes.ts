@@ -4,9 +4,9 @@ import { validate } from "../middlewares/validate.request.js";
 import {
   createCustomerSchema,
   updateCustomerSchema,
-} from "../../../src/schemas/customer.schema.js";
+} from "../../schemas/customer.schema.js";
 import { customerController } from "./customer.controller.js";
-import type { IdParam } from "../../../src/schemas/common.schema.js";
+import type { IdParam } from "../../schemas/common.schema.js";
 
 const customer_router = Router();
 
