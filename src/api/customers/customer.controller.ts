@@ -1,12 +1,12 @@
 import type { Request, Response, NextFunction } from "express";
-import { success } from "../../../src/utils/response.helper.js";
+import { success } from "../../utils/response.helper.js";
 import { customerService } from "./customer.service.js";
 import type {
   CreateCustomerInput,
   UpdateCustomerInput,
-} from "../../../src/schemas/customer.schema.js";
-import { httpStatus } from "../../../src/utils/api.error.js";
-import type { IdParam } from "../../../src/schemas/common.schema.js";
+} from "../../schemas/customer.schema.js";
+import { httpStatus } from "../../utils/api.error.js";
+import type { IdParam } from "../../schemas/common.schema.js";
 
 class CustomerController {
   private serviceCustomer = customerService;

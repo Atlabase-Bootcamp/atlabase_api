@@ -1,9 +1,9 @@
 import type {
   CreateCustomerInput,
   UpdateCustomerInput,
-} from "../../../src/schemas/customer.schema.js";
+} from "../../schemas/customer.schema.js";
 import type { Prisma } from "@prisma/client";
-import { ApiError, httpStatus } from "../../../src/utils/api.error.js";
+import { ApiError, httpStatus } from "../../utils/api.error.js";
 import { customerRepository } from "./customer.repository.js";
 
 class CustomerService {

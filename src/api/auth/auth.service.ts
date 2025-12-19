@@ -2,16 +2,13 @@ import {
   createUser,
   findUserByEmail,
   findUserByUsername,
-} from "../../../src/api/users/user.repository.js";
-import type {
-  RegisterInput,
-  LoginInput,
-} from "../../../src/schemas/auth.schema.js";
+} from "../../api/users/user.repository.js";
+import type { RegisterInput, LoginInput } from "../../schemas/auth.schema.js";
 import {
   hashPassword,
   validatePassword,
-} from "../../../src/utils/validate.password.js";
-import { ApiError, httpStatus } from "../../../src/utils/api.error.js";
+} from "../../utils/validate.password.js";
+import { ApiError, httpStatus } from "../../utils/api.error.js";
 import type { Prisma, User } from "@prisma/client";
 import { signJwt } from "../../../src/utils/jwt.js";
 

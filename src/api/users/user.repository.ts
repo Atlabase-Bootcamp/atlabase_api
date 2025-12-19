@@ -1,4 +1,4 @@
-import prisma from "../../../src/config/db.js";
+import prisma from "../../config/db.js";
 import { type User, Prisma } from "@prisma/client";
 
 export async function createUser(

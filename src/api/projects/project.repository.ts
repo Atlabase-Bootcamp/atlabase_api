@@ -1,9 +1,9 @@
-import prisma from "../../../src/config/db.js";
+import prisma from "../../config/db.js";
 import type { Prisma } from "@prisma/client";
 import type {
   CreateTaskInput,
   UpdateTaskInput,
-} from "../../../src/schemas/project.schema.js";
+} from "../../schemas/project.schema.js";
 
 class ProjectRepository {
   async findAllByUserId(userId: string) {
