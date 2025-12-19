@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import { errorHandler } from "../src/api/middlewares/error.handler.js";
+import { errorHandler } from "./api/middlewares/error.handler.js";
 import auth_router from "./api/auth/auth.routes.js";
 import customer_router from "./api/customers/customer.routes.js";
 import project_router from "./api/projects/project.routes.js";
