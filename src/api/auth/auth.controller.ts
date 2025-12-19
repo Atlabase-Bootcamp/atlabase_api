@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
-import * as authService from "@/src/api/auth/auth.service.js";
-import { httpStatus } from "@@/utils/api.error.js";
-import { success } from "@/src/utils/response.helper.js";
+import * as authService from "../../../src/api/auth/auth.service.js";
+import { httpStatus } from "../../utils/api.error.js";
+import { success } from "../../../src/utils/response.helper.js";
 
 export const registerHandler = async (
   req: Request,

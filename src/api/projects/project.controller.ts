@@ -1,12 +1,12 @@
 import type { Request, Response, NextFunction } from "express";
 import { projectService } from "./project.service.js";
-import { success } from "@/src/utils/response.helper.js";
-import { ApiError, httpStatus } from "@/src/utils/api.error.js";
+import { success } from "../../../src/utils/response.helper.js";
+import { ApiError, httpStatus } from "../../../src/utils/api.error.js";
 import type {
   UpdateTaskInput,
   UpdateTaskParams,
-} from "@/src/schemas/project.schema.js";
-import type { IdParam } from "@/src/schemas/common.schema.js";
+} from "../../../src/schemas/project.schema.js";
+import type { IdParam } from "../../../src/schemas/common.schema.js";
 
 class ProjectController {
   private projectService = projectService;

@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
-import { ApiError, httpStatus } from "@@/utils/api.error.js";
-import { verifyJwt } from "@@/utils/jwt.js";
+import { ApiError, httpStatus } from "../../utils/api.error.js";
+import { verifyJwt } from "../../utils/jwt.js";
 
 export function authenticate(req: Request, res: Response, next: NextFunction) {
   try {

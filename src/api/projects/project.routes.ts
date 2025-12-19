@@ -7,9 +7,9 @@ import {
   updateProjectSchema,
   updateTaskSchema,
   type UpdateTaskParams,
-} from "@/src/schemas/project.schema.js";
+} from "../../../src/schemas/project.schema.js";
 import { projectController } from "./project.controller.js";
-import type { IdParam } from "@/src/schemas/common.schema.js";
+import type { IdParam } from "../../../src/schemas/common.schema.js";
 const project_router = Router();
 
 project_router.get("/projects/", authenticate, (req, res, next) =>

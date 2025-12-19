@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
-import prisma from "@@/config/db.js";
-import app from "@@/app.js";
+import prisma from "./config/db.js";
+import app from "./app.js";
 
 const PORT = process.env.PORT;
 

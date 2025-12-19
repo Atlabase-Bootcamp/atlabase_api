@@ -1,4 +1,7 @@
-import { loginSchema, registerSchema } from "@/src/schemas/auth.schema.js";
+import {
+  loginSchema,
+  registerSchema,
+} from "../../../src/schemas/auth.schema.js";
 import { Router } from "express";
 import { validate } from "../middlewares/validate.request.js";
 import { loginHandler, registerHandler } from "../auth/auth.controller.js";

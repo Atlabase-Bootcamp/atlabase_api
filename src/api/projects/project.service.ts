@@ -1,12 +1,12 @@
 import { projectRepository } from "./project.repository.js";
 import { customerRepository } from "../customers/customer.repository.js";
-import { ApiError, httpStatus } from "@/src/utils/api.error.js";
+import { ApiError, httpStatus } from "../../../src/utils/api.error.js";
 import type {
   CreateProjectInput,
   UpdateProjectInput,
   CreateTaskInput,
   UpdateTaskInput,
-} from "@/src/schemas/project.schema.js";
+} from "../../../src/schemas/project.schema.js";
 
 class ProjectService {
   private projectRepo = projectRepository;
